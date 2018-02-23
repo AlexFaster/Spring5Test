@@ -6,12 +6,12 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "Task")
+@Table(name = "task")
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -23,6 +23,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
-    @Column(nullable = false, name = "userid")
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

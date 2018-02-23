@@ -14,7 +14,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(final TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
@@ -22,7 +22,19 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Optional<Task> getTask(long id) {
+    public Optional<Task> getTask(final long id) {
         return taskRepository.findById(id);
+    }
+
+    public Task addTask(final Task task) {
+        return taskRepository.save(task);
+    }
+
+    public Task updateTask(final Task task) {
+        return taskRepository.save(task);
+    }
+
+    public void deleteTask(final long id) {
+        taskRepository.deleteById(id);
     }
 }
