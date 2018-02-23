@@ -15,6 +15,8 @@ git init.gradle
 *.iws
 *.iml
 *.ipr
+*.gradle
+out/
 
 ### NetBeans ###
 nbproject/private/
