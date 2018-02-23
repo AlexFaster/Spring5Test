@@ -36,8 +36,7 @@ public class TaskController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public TaskDTO getTask(
             @PathVariable("id") final long id
     ) {
@@ -55,8 +54,7 @@ public class TaskController {
         );
     }
 
-    @PutMapping
-    @RequestMapping("/{id}")
+    @PutMapping(path = "/{id}")
     public TaskDTO updateTask(
             @PathVariable("id") final long id,
             @RequestBody final TaskDTO taskDTO
@@ -69,8 +67,7 @@ public class TaskController {
         ).orElseThrow(() -> new RuntimeException("Not Found"));
     }
 
-    @DeleteMapping
-    @RequestMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void deleteTask(
             @PathVariable("id") final long id
     ) {
