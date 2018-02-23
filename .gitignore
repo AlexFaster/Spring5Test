@@ -17,6 +17,7 @@ git init.gradle
 *.ipr
 *.gradle
 out/
+.DS_Store
 
 ### NetBeans ###
 nbproject/private/
