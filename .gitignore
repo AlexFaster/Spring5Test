@@ -26,5 +26,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-/out/production/
-/out/test/
