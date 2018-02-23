@@ -54,7 +54,7 @@ public class TaskController {
         );
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping("/{id}")
     public TaskDTO updateTask(
             @PathVariable("id") final long id,
             @RequestBody final TaskDTO taskDTO
