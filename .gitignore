@@ -15,7 +15,7 @@ git init.gradle
 *.iws
 *.iml
 *.ipr
-*.gradle
+.gradle
 out/
 .DS_Store
 
