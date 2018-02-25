@@ -4,14 +4,16 @@ import com.alexfaster.project.dto.TaskDTO;
 import com.alexfaster.project.model.Task;
 import com.alexfaster.project.service.TaskService;
 import com.alexfaster.project.service.assembler.TaskAssemblerService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api("Task api")
 @RestController
-@RequestMapping(path = "/tasks", produces = "application/json")
+@RequestMapping(path = "/api", produces = "application/json")
 public class TaskController {
 
     private final TaskService taskService;
@@ -28,7 +30,7 @@ public class TaskController {
         this.taskAssemblerService = taskAssemblerService;
     }
 
-    @GetMapping
+    @GetMapping("/v1/tasks")
     public List<TaskDTO> getTasks() {
         return taskService.getTasks()
                 .stream()
@@ -36,7 +38,7 @@ public class TaskController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1/tasks/{id}")
     public TaskDTO getTask(
             @PathVariable("id") final long id
     ) {
@@ -44,7 +46,7 @@ public class TaskController {
                 .orElseThrow(() -> new RuntimeException("Not Found"));
     }
 
-    @PostMapping
+    @PostMapping("/v1/tasks")
     public TaskDTO addTask(
             @RequestBody final TaskDTO taskDTO
     ) {
@@ -54,7 +56,7 @@ public class TaskController {
         );
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/v1/tasks/{id}")
     public TaskDTO updateTask(
             @PathVariable("id") final long id,
             @RequestBody final TaskDTO taskDTO
@@ -67,7 +69,7 @@ public class TaskController {
         ).orElseThrow(() -> new RuntimeException("Not Found"));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/v1/tasks/{id}")
     public void deleteTask(
             @PathVariable("id") final long id
     ) {
