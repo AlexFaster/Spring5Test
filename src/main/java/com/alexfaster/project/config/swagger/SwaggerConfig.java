@@ -1,4 +1,4 @@
-package com.alexfaster.project.config;
+package com.alexfaster.project.config.swagger;
 
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
@@ -16,12 +16,7 @@ import java.util.ArrayList;
 
 @Configuration
 @EnableSwagger2
-public class Config {
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+public class SwaggerConfig {
 
     @Bean
     public Docket api() {
