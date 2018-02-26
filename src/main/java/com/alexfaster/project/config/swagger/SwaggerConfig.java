@@ -1,7 +1,6 @@
 package com.alexfaster.project.config.swagger;
 
 import io.swagger.annotations.Api;
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
