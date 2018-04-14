@@ -1,25 +1,18 @@
 package com.alexfaster.project.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = {"Auth operations"}, description = " ")
 @RestController
 @RequestMapping("/api")
 public class AuthController {
 
-    @PostMapping("/v1/login")
-    public String login() {
-        return "login";
-    }
-
-    @PostMapping("/v1/forgetPassword")
-    public String forgetPassword() {
+    @PostMapping("/v1/register")
+    public String register() {
         return "forget password";
     }
 
-    @PostMapping("v1/logout")
-    public String logout() {
-        return "logout";
-    }
 }
