@@ -1,13 +1,15 @@
-package com.alexfaster.project.rest;
+package com.alexfaster.project.controller;
 
 import com.alexfaster.project.dto.TaskDTO;
 import com.alexfaster.project.model.Task;
+import com.alexfaster.project.model.User;
 import com.alexfaster.project.service.TaskService;
 import com.alexfaster.project.service.assembler.TaskAssemblerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -39,8 +41,12 @@ public class TaskController {
             response = TaskDTO.class,
             responseContainer = "List"
     )
-    public List<TaskDTO> getTasks() {
-        return taskService.getTasks()
+    public List<TaskDTO> getTasks(
+            @ApiParam(hidden = true)
+            @AuthenticationPrincipal(expression = "user")
+            final User user
+    ) {
+        return taskService.getTasks(user)
                 .stream()
                 .map(taskAssemblerService::assembleDTO)
                 .collect(Collectors.toList());
@@ -52,11 +58,18 @@ public class TaskController {
             response = TaskDTO.class
     )
     public TaskDTO getTask(
+
+            @ApiParam(hidden = true)
+            @AuthenticationPrincipal(expression = "user")
+            final User user,
+
             @ApiParam(required = true, name = "id")
             @NotNull
-            @PathVariable("id") final long id
+            @PathVariable("id")
+            final long id
     ) {
-        return taskService.getTask(id).map(taskAssemblerService::assembleDTO)
+        return taskService.getTask(id, user)
+                .map(taskAssemblerService::assembleDTO)
                 .orElseThrow(() -> new RuntimeException("Not Found"));
     }
 
@@ -66,14 +79,18 @@ public class TaskController {
             response = TaskDTO.class
     )
     public TaskDTO addTask(
+
+            @ApiParam(hidden = true)
+            @AuthenticationPrincipal(expression = "user")
+            final User user,
+
             @ApiParam(required = true, name = "task")
             @NotNull
-            @RequestBody final TaskDTO taskDTO
+            @RequestBody
+            final TaskDTO taskDTO
     ) {
-        final Task task = taskAssemblerService.dtoToEntity(taskDTO);
-        return taskAssemblerService.assembleDTO(
-                taskService.addTask(task)
-        );
+        final Task task = taskService.addTask(user, taskDTO);
+        return taskAssemblerService.assembleDTO(task);
     }
 
     @PutMapping("/v1/tasks/{id}")
@@ -82,20 +99,24 @@ public class TaskController {
             response = TaskDTO.class
     )
     public TaskDTO updateTask(
+
+            @ApiParam(hidden = true)
+            @AuthenticationPrincipal(expression = "user")
+            final User user,
+
             @ApiParam(required = true, name = "id")
             @NotNull
-            @PathVariable("id") final long id,
+            @PathVariable("id")
+            final long id,
 
             @ApiParam(required = true, name = "task")
             @NotNull
-            @RequestBody final TaskDTO taskDTO
+            @RequestBody
+            final TaskDTO taskDTO
     ) {
-        return taskService.getTask(id).map(task -> {
-                    final Task taskIn = taskAssemblerService.mergeWithDTO(task, taskDTO);
-                    taskService.updateTask(taskIn);
-                    return taskAssemblerService.assembleDTO(taskIn);
-                }
-        ).orElseThrow(() -> new RuntimeException("Not Found"));
+        return taskService.updateTask(id, user, taskDTO)
+                .map(taskAssemblerService::assembleDTO)
+                .orElseThrow(() -> new RuntimeException("Not Found"));
     }
 
     @DeleteMapping("/v1/tasks/{id}")
@@ -103,10 +124,16 @@ public class TaskController {
             value = "Delete task"
     )
     public void deleteTask(
+
+            @ApiParam(hidden = true)
+            @AuthenticationPrincipal(expression = "user")
+            final User user,
+
             @ApiParam(required = true, name = "id")
             @NotNull
-            @PathVariable("id") final long id
+            @PathVariable("id")
+            final long id
     ) {
-        taskService.deleteTask(id);
+        taskService.deleteTask(id, user);
     }
 }

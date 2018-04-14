@@ -1,4 +1,4 @@
-package com.alexfaster.project.rest;
+package com.alexfaster.project.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
